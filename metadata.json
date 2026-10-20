@@ -1,0 +1,6 @@
+{
+  "name": "Daksh Intelligence",
+  "description": "Personal PC AI Assistant & Workstation Copilot created by Daksh Bugalia, featuring real-time streaming chat, developer code studio, system automation scripts, and voice intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
