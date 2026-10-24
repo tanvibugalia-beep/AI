@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daksh Intelligence — Personal PC AI Assistant</title>
+  <link rel="icon" type="image/jpeg" href="/logo.jpg">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Marked for Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Highlight.js for code blocks -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              obsidian: '#040711',
+              dark: '#070b16',
+              surface: '#0b1222',
+              card: '#0f172a',
+              border: '#16233b',
+              cyan: '#38bdf8',
+              teal: '#06b6d4',
+              indigo: '#6366f1',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* High-Fidelity Carbon Matrix Background */
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #03060d;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
+        radial-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px),
+        radial-gradient(rgba(15, 23, 42, 0.6) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 28px 28px, 14px 14px;
+      background-position: 0 0, 0 0, 0 0, 7px 7px;
+      color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(7, 11, 22, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+
+    /* Beveled Cyber Cards from Reference Picture 2 */
+    .cyber-panel {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 14, 27, 0.95) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+    }
+
+    .cyber-card-quick {
+      background: linear-gradient(145deg, #0e172a 0%, #090e1c 100%);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1), 0 0 18px -4px rgba(6, 182, 212, 0.18);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cyber-card-quick:hover {
+      border-color: rgba(56, 189, 248, 0.7);
+      box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.7), inset 0 1px 2px 0 rgba(255, 255, 255, 0.2), 0 0 25px 0 rgba(6, 182, 212, 0.35);
+      transform: translateY(-2px);
+    }
+
+    /* Extruded Capsule Input Bar */
+    .cyber-input-capsule {
+      background: linear-gradient(180deg, #0b1323 0%, #050914 100%);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      box-shadow: 0 14px 40px -6px rgba(0, 0, 0, 0.85), inset 0 1px 2px 0 rgba(255, 255, 255, 0.08), 0 0 22px -3px rgba(6, 182, 212, 0.22);
+    }
+
+    /* Glowing Capsule Pill */
+    .cyber-pill-glow {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.5);
+      box-shadow: 0 0 16px -2px rgba(6, 182, 212, 0.4);
+    }
+
+    /* Notch Housing for Login Emblem (Pic 1) */
+    .login-notch {
+      background: linear-gradient(180deg, #162035 0%, #0c1424 100%);
+      border-bottom: 2px solid rgba(56, 189, 248, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .prose pre {
+      background-color: #020617 !important;
+      border: 1px solid #1e293b;
+      border-radius: 0.6rem;
+      padding: 0.85rem;
+      margin: 0.6rem 0;
+      overflow-x: auto;
+    }
+    .prose code {
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+    }
+    .prose p {
+      margin-bottom: 0.6rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body class="flex flex-col h-screen select-none antialiased text-slate-100">
+
+  <!-- ================= 1. INITIAL LOGIN SCREEN (EXACT MATCH TO USER PIC 1) ================= -->
+  <div id="view-login" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="w-full max-w-sm bg-[#09101e]/95 border border-cyan-500/35 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 my-auto relative backdrop-blur-2xl ring-1 ring-cyan-500/20">
+      
+      <!-- Top Emblem Notch Header -->
+      <div class="flex flex-col items-center text-center space-y-3 -mt-3">
+        <div class="relative group">
+          <div class="absolute -inset-1.5 rounded-full bg-gradient-to-r from-cyan-400 via-indigo-500 to-fuchsia-500 opacity-70 blur-md transition duration-500 animate-pulse"></div>
+          <img
+            src="/logo.jpg"
+            alt="Daksh Intelligence Logo"
+            class="relative w-20 h-20 rounded-full object-cover shadow-2xl border-2 border-cyan-400/70 ring-2 ring-indigo-500/40"
+          />
+        </div>
+
+        <div>
+          <h1 class="text-xl font-bold text-white tracking-tight">Daksh Intelligence</h1>
+          <p class="text-xs text-slate-400 mt-0.5">
+            Personal PC AI Assistant · By <span class="text-indigo-400 font-medium">Daksh Bugalia</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Google Sign In Button -->
+      <div class="space-y-2 pt-1">
+        <button
+          type="button"
+          onclick="openGoogleChooser()"
+          class="w-full py-2.5 px-4 bg-white hover:bg-slate-100 text-slate-800 text-xs font-semibold rounded-xl border border-slate-300 shadow-md flex items-center justify-center gap-3 transition-all hover:shadow cursor-pointer active:scale-[0.99]"
+        >
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+
+        <div class="flex items-center justify-center gap-1.5 text-[11px] text-slate-500">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Secure Google OAuth 2.0 Connection</span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-2 text-[11px] text-slate-500">
+        <div class="flex-1 h-px bg-slate-800"></div>
+        <span>or sign in with password</span>
+        <div class="flex-1 h-px bg-slate-800"></div>
+      </div>
+
+      <!-- Beveled Sign In / Create Account Toggle -->
+      <div class="p-1 bg-[#050914] border border-cyan-900/40 rounded-xl flex text-xs shadow-inner">
+        <button
+          type="button"
+          id="btn-login-tab-signin"
+          onclick="setAuthMode('signin')"
+          class="flex-1 py-1.5 rounded-lg font-medium transition-all text-center bg-gradient-to-r from-indigo-600/40 to-cyan-600/40 border border-cyan-500/40 text-white shadow-sm"
+        >
+          Sign In
+        </button>
+        <button
+          type="button"
+          id="btn-login-tab-signup"
+          onclick="setAuthMode('signup')"
+          class="flex-1 py-1.5 rounded-lg font-medium transition-colors text-center text-slate-400 hover:text-white"
+        >
+          Create Account
+        </button>
+      </div>
+
+      <!-- Form Inputs -->
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-3 text-xs">
+        <div id="signup-name-container" class="space-y-1 hidden">
+          <label class="block font-medium text-slate-300">Your Full Name</label>
+          <div class="relative">
+            <i data-lucide="user" class="w-4 h-4 text-cyan-400 absolute left-3 top-2.5"></i>
+            <input
+              type="text"
+              id="input-auth-name"
+              placeholder="Daksh Bugalia"
+              class="w-full pl-9 pr-3 py-2 bg-[#050914] border border-slate-800 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors shadow-inner"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block font-medium text-slate-300">Email Address</label>
+          <div class="relative">
+            <i data-lucide="mail" class="w-4 h-4 text-cyan-400 absolute left-3 top-2.5"></i>
+            <input
+              type="email"
+              id="input-auth-email"
+              required
+              placeholder="name@example.com"
+              class="w-full pl-9 pr-3 py-2 bg-[#050914] border border-slate-800 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors shadow-inner"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block font-medium text-slate-300">Password</label>
+          <div class="relative">
+            <i data-lucide="lock" class="w-4 h-4 text-cyan-400 absolute left-3 top-2.5"></i>
+            <input
+              type="password"
+              id="input-auth-password"
+              required
+              placeholder="••••••••"
+              class="w-full pl-9 pr-10 py-2 bg-[#050914] border border-slate-800 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors shadow-inner"
+            />
+            <button
+              type="button"
+              onclick="togglePasswordVisibility()"
+              class="absolute right-3 top-2.5 text-slate-500 hover:text-cyan-300"
+            >
+              <i data-lucide="eye" id="eye-icon" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Glowing Toggle Switch for Remember Session (Exact Match to Pic 1) -->
+        <div class="flex items-center justify-between text-xs pt-1">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="remember-me-checkbox" checked class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500 shadow-sm shadow-cyan-500/30"></div>
+            <span class="ml-2.5 text-xs text-slate-300 font-medium">Remember session</span>
+          </label>
+        </div>
+
+        <!-- Submit Button (Gradient from Pic 1) -->
+        <button
+          type="submit"
+          id="btn-auth-submit"
+          class="w-full mt-2 py-2.5 px-4 bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 hover:brightness-110 text-white font-semibold rounded-xl transition-all shadow-lg shadow-indigo-600/40 border border-indigo-400/40 flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span id="btn-auth-text">Sign In to Workstation</span>
+        </button>
+
+        <div id="login-error-banner" class="hidden p-2.5 bg-rose-950/80 border border-rose-800/80 rounded-xl text-rose-300 text-[11px] text-center">
+          <span id="login-error-text">Authentication failed.</span>
+        </div>
+      </form>
+
+      <!-- Bottom Guest Link Pill (From Pic 1) -->
+      <div class="p-2.5 bg-[#050914] border border-slate-800/80 rounded-xl text-center text-[11px] text-slate-400 flex items-center justify-between">
+        <span>Need guest access?</span>
+        <button
+          type="button"
+          onclick="handleGuestLogin()"
+          class="text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1 transition-colors cursor-pointer"
+        >
+          <span>Continue as Guest Workstation</span>
+          <i data-lucide="arrow-right" class="w-3 h-3"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Google Account Picker & Owner Security Modal -->
+  <div id="modal-google-chooser" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#0b1322] border border-cyan-500/30 rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+        <h3 class="font-bold text-white text-xs flex items-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+          </svg>
+          <span>Sign In with Google</span>
+        </h3>
+        <button onclick="closeGoogleChooser()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <p class="text-[11px] text-slate-400">
+        Enter your Google account email address. Master Owner access requires password verification.
+      </p>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-medium text-slate-300 mb-1">Google Email Address</label>
+          <input
+            type="email"
+            id="custom-google-email-input"
+            placeholder="yourname@gmail.com"
+            class="w-full bg-[#050914] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
+          />
+        </div>
+
+        <div id="owner-verify-container" class="hidden p-3 bg-indigo-950/40 border border-indigo-700/50 rounded-xl space-y-2">
+          <div class="flex items-center gap-1.5 text-indigo-300 font-semibold text-xs">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Owner Account Verification</span>
+          </div>
+          <p class="text-[10px] text-slate-300">
+            This is the Master Administrator account (<code class="text-indigo-300">dakshbugalia1@gmail.com</code>). Enter your Owner Security Password to unlock full permissions.
+          </p>
+          <input
+            type="password"
+            id="owner-security-password-input"
+            placeholder="Owner Password"
+            class="w-full bg-slate-900 border border-indigo-600/60 rounded-lg p-2 text-white focus:outline-none text-xs"
+          />
+        </div>
+
+        <div id="google-auth-error-banner" class="hidden p-2 bg-rose-950/80 border border-rose-800/80 rounded-lg text-rose-300 text-[10px]">
+          <span id="google-auth-error-text">Error occurred.</span>
+        </div>
+
+        <button
+          type="button"
+          onclick="submitGoogleAuth()"
+          class="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+        >
+          <span>Verify & Continue</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 2. MAIN APPLICATION WORKSPACE (EXACT DESIGN MATCH TO USER PIC 2) ================= -->
+  <div id="app-main-layout" class="hidden flex flex-col h-full w-full">
+    
+    <!-- Top Header Navbar (Streamlined: Only Chat and Knowledge Base, matching Pic 2 style) -->
+    <header class="h-14 bg-[#060a14]/90 backdrop-blur-md border-b border-cyan-950/50 px-4 flex items-center justify-between gap-4 shrink-0 z-30">
+      <div class="flex items-center gap-3 shrink-0">
+        <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('chat')">
+          <div class="relative">
+            <div class="absolute -inset-0.5 rounded-full bg-cyan-500/50 blur-xs"></div>
+            <img src="/logo.jpg" alt="Daksh Intelligence Logo" class="relative w-7 h-7 rounded-full object-cover ring-1 ring-cyan-400/60 shadow-md shadow-cyan-500/20" />
+          </div>
+          <span class="font-bold text-sm tracking-tight text-white whitespace-nowrap">Daksh Intelligence</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs: Chat & Knowledge Base Only (Tasks, Code Studio, System Scripts removed per user instructions) -->
+      <nav class="flex items-center gap-1.5 bg-[#0b1222] p-1 rounded-xl border border-slate-800/90 shadow-inner">
+        <button id="tab-btn-chat" onclick="switchTab('chat')" class="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap bg-indigo-600/30 text-indigo-200 border border-indigo-500/40 shadow-sm cursor-pointer">
+          <i data-lucide="message-square" class="w-3.5 h-3.5 text-indigo-300"></i>
+          <span>Chat</span>
+        </button>
+
+        <button id="tab-btn-knowledge" onclick="switchTab('knowledge')" class="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 cursor-pointer">
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-cyan-400"></i>
+          <span>Knowledge Base</span>
+          <span id="badge-knowledge-count" class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-full px-1.5 py-0.2 text-[10px] font-mono">3</span>
+        </button>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="openQuickActionsModal()" class="hidden sm:flex items-center gap-2 px-2.5 py-1.5 bg-[#0b1222] hover:bg-[#101b30] border border-slate-800 rounded-lg text-xs text-slate-300 transition-colors cursor-pointer">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-cyan-400"></i>
+          <span>Quick Actions</span>
+          <kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-700 rounded text-[10px] text-slate-400 font-mono">Ctrl+K</kbd>
+        </button>
+
+        <button onclick="toggleAudioSpeech()" id="audio-toggle-btn" class="p-2 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-slate-900 border border-slate-800 transition-colors cursor-pointer" title="Toggle Auto-Speech">
+          <i data-lucide="volume-2" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Area -->
+    <main class="flex-1 flex overflow-hidden relative">
+      
+      <!-- TAB 1: CHAT VIEW -->
+      <section id="view-chat" class="flex-1 flex overflow-hidden w-full h-full p-3 gap-3">
+        
+        <!-- Left Sidebar (Floating Rounded Box from Pic 2) -->
+        <aside class="w-64 bg-[#090f1d]/90 border border-cyan-950/60 rounded-2xl flex flex-col shrink-0 overflow-hidden select-none shadow-xl backdrop-blur-xl">
+          <div class="p-3 border-b border-slate-800/70 flex items-center gap-2">
+            <!-- + New Chat Button with Rich Indigo/Purple Gradient (Pic 2) -->
+            <button onclick="createNewConversation()" class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:brightness-110 rounded-xl transition-all shadow-md shadow-indigo-600/30 border border-indigo-400/30 cursor-pointer">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>New Chat</span>
+            </button>
+            <button onclick="clearAllConversations()" class="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded-xl border border-slate-800 transition-colors cursor-pointer" title="Clear All Chats">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <div class="flex-1 overflow-y-auto p-2 space-y-1">
+            <div class="flex items-center justify-between text-[11px] font-semibold text-slate-500 px-2 py-1.5 uppercase tracking-wider">
+              <span id="conv-count-label">Conversations (1)</span>
+            </div>
+            <div id="conversation-list" class="space-y-1"></div>
+          </div>
+
+          <!-- Bottom User Profile & Settings Section -->
+          <div class="p-2.5 border-t border-slate-800/80 bg-[#060a14]/60 space-y-1 shrink-0">
+            <div class="flex items-center justify-between p-1.5 hover:bg-[#10192e] rounded-xl transition-colors group">
+              <div onclick="openSettingsHub('profile')" class="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1" title="View Profile">
+                <div id="sidebar-avatar" class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center font-bold text-xs ring-1 ring-cyan-500/40 shadow-sm shrink-0">D</div>
+                <div class="min-w-0">
+                  <div id="sidebar-username" class="text-xs font-semibold text-slate-200 group-hover:text-cyan-300 truncate">Daksh</div>
+                  <div class="text-[10px] text-slate-500 truncate flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    <span>Online</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-1 shrink-0">
+                <button type="button" onclick="event.stopPropagation(); openSettingsHub('settings')" class="p-1.5 text-slate-400 hover:text-cyan-300 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer" title="Settings Hub">
+                  <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+                </button>
+                <button type="button" onclick="event.stopPropagation(); handleLogout()" class="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded-lg transition-colors cursor-pointer" title="Log Out">
+                  <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Center Workspace Pane (From Pic 2) -->
+        <div class="flex-1 flex flex-col h-full bg-[#070b16]/90 border border-cyan-950/50 rounded-2xl overflow-hidden relative shadow-2xl backdrop-blur-xl">
+          
+          <!-- Chat Scroll Container -->
+          <div id="chat-messages-container" class="flex-1 overflow-y-auto px-4 md:px-8 py-6 space-y-6">
+            
+            <!-- Hero Center Panel (EXACT MATCH TO PIC 2) -->
+            <div id="chat-empty-hero" class="max-w-2xl mx-auto py-4 flex flex-col items-center text-center space-y-4">
+              
+              <!-- Large Floating Central Box -->
+              <div class="w-full cyber-panel rounded-3xl p-6 sm:p-8 space-y-5">
+                <div>
+                  <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Welcome to Daksh Intelligence</h1>
+                  <p class="text-xs sm:text-sm text-slate-400 mt-1">
+                    Engineered & Owned by <span class="text-cyan-400 font-semibold">Daksh Bugalia</span> · High-Speed PC Assistant
+                  </p>
+                </div>
+
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 bg-cyan-950/50 border border-cyan-800/60 rounded-full text-xs text-cyan-300 shadow-sm">
+                  <i data-lucide="zap" class="w-3.5 h-3.5 text-cyan-400"></i>
+                  <span>Ultra-Fast Answering Mode Active & Microphone Dictation Ready</span>
+                </div>
+
+                <!-- 4 Metallic Quick Cards (Pic 2) -->
+                <div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2 text-left">
+                  
+                  <!-- Card 1 -->
+                  <button onclick="sendQuickPrompt('Write a safe PowerShell script to calculate and clean up %TEMP% and Windows temp files with administrator elevation check.')" class="cyber-card-quick p-4 rounded-2xl flex flex-col justify-between group cursor-pointer">
+                    <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-300 flex items-center justify-between w-full">
+                      <span>Clean Windows Temp Files</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all"></i>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                      Write a safe PowerShell script to calculate and clean up %TEMP% and Windows temp files with administrator...
+                    </p>
+                  </button>
+
+                  <!-- Card 2 -->
+                  <button onclick="sendQuickPrompt('Write a PowerShell one-liner or script to scan the current drive or directory and output the top 15 largest files formatted in MB/GB.')" class="cyber-card-quick p-4 rounded-2xl flex flex-col justify-between group cursor-pointer">
+                    <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-300 flex items-center justify-between w-full">
+                      <span>Find Top 15 Largest Files</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all"></i>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                      Write a PowerShell one-liner or script to scan the current drive or directory and output the top 15 largest files...
+                    </p>
+                  </button>
+
+                  <!-- Card 3 -->
+                  <button onclick="sendQuickPrompt('Write a cross-platform script (Bash and Python) to safely batch-rename all files in a folder matching a pattern, adding an incremental counter and creation date.')" class="cyber-card-quick p-4 rounded-2xl flex flex-col justify-between group cursor-pointer">
+                    <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-300 flex items-center justify-between w-full">
+                      <span>Batch Rename Files</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all"></i>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                      Write a cross-platform script (Bash and Python) to safely batch-rename all files in a folder matching a pattern...
+                    </p>
+                  </button>
+
+                  <!-- Card 4 -->
+                  <button onclick="sendQuickPrompt('Explain the difference between git reset --soft HEAD~1 and git reset --hard HEAD~1, and show how to safely amend or undo the last local commit.')" class="cyber-card-quick p-4 rounded-2xl flex flex-col justify-between group cursor-pointer">
+                    <div class="font-bold text-xs text-slate-200 group-hover:text-cyan-300 flex items-center justify-between w-full">
+                      <span>Undo Last Git Commit</span>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all"></i>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                      Explain the difference between git reset --soft HEAD~1 and git reset --hard HEAD~1, and show how to safely...
+                    </p>
+                  </button>
+
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Messages list -->
+            <div id="messages-list" class="max-w-3xl mx-auto space-y-6 hidden"></div>
+            <div id="messages-anchor"></div>
+          </div>
+
+          <!-- Bottom Extruded Floating Input Capsule (EXACT MATCH TO PIC 2) -->
+          <div class="p-4 bg-gradient-to-t from-[#040711] via-[#040711]/90 to-transparent shrink-0">
+            <div class="max-w-3xl mx-auto">
+              <div id="attachment-preview" class="hidden mb-2 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-cyan-300 flex items-center justify-between">
+                <span id="attachment-name" class="truncate"></span>
+                <button onclick="removeAttachment()" class="text-slate-400 hover:text-rose-400 ml-2 cursor-pointer">&times;</button>
+              </div>
+
+              <!-- Capsule Container (Pic 2) -->
+              <div class="cyber-input-capsule rounded-full px-4 py-2.5 flex items-center gap-2.5 transition-all">
+                <input type="file" id="file-upload-input" class="hidden" onchange="handleFileUpload(event)">
+                <button onclick="document.getElementById('file-upload-input').click()" class="p-2 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer" title="Attach file or screenshot">
+                  <i data-lucide="paperclip" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Voice Dictation Mic -->
+                <button onclick="toggleMicrophone()" id="mic-btn" class="p-2 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer" title="Voice Dictation">
+                  <i data-lucide="mic" class="w-4 h-4"></i>
+                </button>
+
+                <textarea id="chat-input" rows="1" placeholder="Ask Daksh Intelligence anything... (Shift+Enter for new line)" class="flex-1 bg-transparent text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none resize-none py-1 max-h-32 leading-relaxed" onkeydown="handleInputKeydown(event)"></textarea>
+
+                <!-- Stop Generating Button -->
+                <button onclick="stopGeneration()" id="stop-gen-btn" class="hidden px-2.5 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-full text-xs font-semibold flex items-center gap-1 transition-all shadow-sm shadow-rose-500/20 shrink-0 cursor-pointer" title="Stop Generation">
+                  <i data-lucide="square" class="w-3 h-3 fill-white"></i>
+                  <span>Stop</span>
+                </button>
+
+                <!-- Neon Glowing Send Arrow (From Pic 2) -->
+                <button onclick="sendMessage()" id="send-btn" class="p-2 text-cyan-400 hover:text-cyan-300 transition-all hover:scale-110 active:scale-95 disabled:opacity-50 shrink-0 cursor-pointer" title="Send message">
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 2: KNOWLEDGE BASE -->
+      <section id="view-knowledge" class="flex-1 overflow-y-auto p-6 max-w-5xl mx-auto w-full hidden">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-xl font-bold text-white">Ingested Knowledge Base</h2>
+            <p class="text-xs text-slate-400 mt-1">Ingest web URLs and documentation. The AI assistant grounds answers directly using these documents.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div class="cyber-panel rounded-2xl p-5 space-y-4">
+            <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+              <i data-lucide="globe" class="w-4 h-4 text-cyan-400"></i>
+              <span>Ingest Web Page URL</span>
+            </h3>
+            <div class="flex gap-2">
+              <input type="text" id="url-ingest-input" placeholder="https://..." class="flex-1 bg-[#050914] border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+              <button onclick="ingestUrl()" id="btn-ingest-url" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-medium rounded-lg cursor-pointer">Ingest</button>
+            </div>
+          </div>
+
+          <div class="cyber-panel rounded-2xl p-5 space-y-4">
+            <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4 text-indigo-400"></i>
+              <span>Add Manual Guide / Note</span>
+            </h3>
+            <input type="text" id="doc-title-input" placeholder="Document Title" class="w-full bg-[#050914] border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+            <textarea id="doc-content-input" placeholder="Paste guide or documentation..." rows="2" class="w-full bg-[#050914] border border-slate-800 rounded-lg px-3 py-2 text-xs text-white"></textarea>
+            <button onclick="addManualDoc()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded-lg cursor-pointer">Add Document</button>
+          </div>
+        </div>
+
+        <div id="kb-documents-list" class="space-y-3"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= 3. AI ASSISTANT SETTINGS & PROFILE MODAL ================= -->
+  <div id="modal-settings-hub" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4 hidden overflow-y-auto">
+    <div class="w-full max-w-sm sm:max-w-md bg-[#070d18] border border-cyan-500/40 rounded-3xl p-5 sm:p-6 shadow-2xl space-y-4 my-auto relative ring-1 ring-cyan-500/20">
+      
+      <button onclick="closeSettingsHub()" class="absolute right-4 top-4 text-slate-400 hover:text-cyan-300 transition-colors p-1 rounded-full hover:bg-slate-800/60 text-lg cursor-pointer">&times;</button>
+
+      <div class="flex flex-col items-center text-center space-y-2 pt-1">
+        <div class="relative group">
+          <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400 via-indigo-500 to-fuchsia-500 opacity-70 blur-md animate-pulse"></div>
+          <img
+            src="/logo.jpg"
+            alt="Daksh Intelligence Logo"
+            class="relative w-16 h-16 rounded-full object-cover border-2 border-cyan-400/60 shadow-xl"
+          />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-white tracking-wide">AI Assistant Settings</h2>
+          <p class="text-[11px] text-cyan-400/90 font-mono -mt-0.5">Daksh Intelligence · Personal Copilot</p>
+        </div>
+      </div>
+
+      <!-- User Profile Card -->
+      <div onclick="openHubSection('account')" class="p-3 bg-[#0c1424] hover:bg-[#101b30] border border-cyan-900/50 rounded-2xl flex items-center justify-between gap-3 shadow-inner cursor-pointer transition-colors group">
+        <div class="flex items-center gap-3 min-w-0">
+          <div id="hub-user-avatar" class="w-10 h-10 rounded-full bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 flex items-center justify-center font-bold text-sm shrink-0">
+            <i data-lucide="user" class="w-5 h-5 text-cyan-400"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-semibold text-white truncate flex items-center gap-1.5">
+              <span>User Profile</span>
+              <span id="hub-role-badge" class="text-[9px] px-1.5 py-0.2 rounded font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Owner</span>
+            </div>
+            <p id="hub-username-label" class="text-[11px] text-slate-400 truncate">dakshbugalia1@gmail.com</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-950/70 border border-emerald-800/40 rounded-full text-[11px] text-emerald-400 font-medium shrink-0">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Online</span>
+        </div>
+      </div>
+
+      <!-- MAIN MENU LIST -->
+      <div id="hub-main-menu" class="border border-cyan-500/40 bg-[#08101d]/90 rounded-2xl divide-y divide-slate-800/80 overflow-hidden shadow-lg">
+        
+        <button onclick="openHubSection('voice')" class="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-cyan-950/20 transition-colors group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="mic" class="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform"></i>
+            <span class="text-xs font-medium text-slate-200 group-hover:text-cyan-300">Voice Settings</span>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+        </button>
+
+        <button onclick="openHubSection('notifications')" class="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-cyan-950/20 transition-colors group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bell" class="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform"></i>
+            <span class="text-xs font-medium text-slate-200 group-hover:text-cyan-300">Notification Preferences</span>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+        </button>
+
+        <button onclick="openHubSection('language')" class="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-cyan-950/20 transition-colors group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="globe" class="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform"></i>
+            <span class="text-xs font-medium text-slate-200 group-hover:text-cyan-300">Language</span>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+        </button>
+
+        <button onclick="openHubSection('privacy')" class="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-cyan-950/20 transition-colors group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="shield" class="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform"></i>
+            <span class="text-xs font-medium text-slate-200 group-hover:text-cyan-300">Privacy & Security</span>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+        </button>
+
+        <button onclick="openHubSection('account')" class="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-cyan-950/20 transition-colors group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="user" class="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform"></i>
+            <span class="text-xs font-medium text-slate-200 group-hover:text-cyan-300">Account & Storage Vault</span>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+        </button>
+
+        <button onclick="openHubSection('model')" class="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-cyan-950/20 transition-colors group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="cpu" class="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform"></i>
+            <span class="text-xs font-medium text-slate-200 group-hover:text-cyan-300">AI Model & Intelligence</span>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+        </button>
+
+        <button onclick="openHubSection('devices')" class="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-cyan-950/20 transition-colors group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="monitor" class="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform"></i>
+            <span class="text-xs font-medium text-slate-200 group-hover:text-cyan-300">Connected Devices & Telemetry</span>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors"></i>
+        </button>
+      </div>
+
+      <!-- SUB-SECTION: VOICE SETTINGS -->
+      <div id="hub-section-voice" class="hidden space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+          <button onclick="showHubMainMenu()" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium cursor-pointer">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Back to Settings</span>
+          </button>
+          <span class="font-bold text-white">Voice Settings</span>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-200 font-medium">Auto-Speak Responses</span>
+              <input type="checkbox" id="setting-auto-speak" class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 cursor-pointer">
+            </div>
+            <p class="text-[11px] text-slate-400">Automatically read Gemini responses aloud using speech synthesis.</p>
+          </div>
+
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <label class="block text-slate-200 font-medium">AI Voice Persona</label>
+            <select id="setting-voice-model" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-white focus:outline-none">
+              <option value="Kore">Kore (Clear & Natural)</option>
+              <option value="Puck">Puck (Dynamic & Energetic)</option>
+              <option value="Fenrir">Fenrir (Deep & Resonant)</option>
+              <option value="Aoede">Aoede (Soft & Melodic)</option>
+            </select>
+          </div>
+
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <div class="flex justify-between text-slate-300">
+              <span>Speech Speed Rate</span>
+              <span id="voice-speed-val" class="font-mono text-cyan-400">1.0x</span>
+            </div>
+            <input type="range" id="setting-voice-rate" min="0.7" max="1.5" step="0.1" value="1.0" oninput="document.getElementById('voice-speed-val').innerText = this.value + 'x'" class="w-full">
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: AI MODEL & INTELLIGENCE -->
+      <div id="hub-section-model" class="hidden space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+          <button onclick="showHubMainMenu()" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium cursor-pointer">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Back to Settings</span>
+          </button>
+          <span class="font-bold text-white">AI Model & Copilot</span>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <label class="block text-slate-200 font-medium">AI Model Engine</label>
+            <select id="setting-ai-model" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-white focus:outline-none">
+              <option value="gemini-2.5-flash">Gemini 2.5 Flash (Default · Ultra-Fast)</option>
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash (Stable Workhorse)</option>
+              <option value="gemini-2.0-flash">Gemini 2.0 Flash (Experimental Preview)</option>
+            </select>
+          </div>
+
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <label class="block text-slate-200 font-medium">Assistant Persona</label>
+            <select id="setting-persona" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-white focus:outline-none">
+              <option value="daksh-core">Daksh Intelligence (Core Copilot)</option>
+              <option value="code-architect">Nexus Architect (Dev & Debugger)</option>
+              <option value="terminal-guru">Terminal Guru (PowerShell & Shell)</option>
+              <option value="executive-planner">Echo Executive (Productivity)</option>
+            </select>
+          </div>
+
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <div class="flex justify-between text-slate-300">
+              <span>Creativity / Temperature</span>
+              <span id="temp-val" class="font-mono text-cyan-400">0.7</span>
+            </div>
+            <input type="range" id="setting-temperature" min="0" max="1.4" step="0.05" value="0.7" oninput="document.getElementById('temp-val').innerText = this.value" class="w-full">
+            <p class="text-[10px] text-slate-400">Lower = focused & deterministic. Higher = creative & brainstorming.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: NOTIFICATION PREFERENCES -->
+      <div id="hub-section-notifications" class="hidden space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+          <button onclick="showHubMainMenu()" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium cursor-pointer">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Back to Settings</span>
+          </button>
+          <span class="font-bold text-white">Notifications</span>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl flex items-center justify-between">
+            <div>
+              <div class="text-slate-200 font-medium">Sound Alert on Reply</div>
+              <p class="text-[10px] text-slate-400">Play subtle chime when AI finishes generating.</p>
+            </div>
+            <input type="checkbox" id="setting-reply-sound" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 cursor-pointer">
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: LANGUAGE -->
+      <div id="hub-section-language" class="hidden space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+          <button onclick="showHubMainMenu()" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium cursor-pointer">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Back to Settings</span>
+          </button>
+          <span class="font-bold text-white">Language & Region</span>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <label class="block text-slate-200 font-medium">Primary Assistant Language</label>
+            <select id="setting-language" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-white focus:outline-none">
+              <option value="en">English (US / Global)</option>
+              <option value="hi">Hindi (हिंदी)</option>
+              <option value="es">Spanish (Español)</option>
+              <option value="fr">French (Français)</option>
+              <option value="de">German (Deutsch)</option>
+              <option value="ja">Japanese (日本語)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: PRIVACY & SECURITY -->
+      <div id="hub-section-privacy" class="hidden space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+          <button onclick="showHubMainMenu()" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium cursor-pointer">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Back to Settings</span>
+          </button>
+          <span class="font-bold text-white">Privacy & Security</span>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <label class="block text-slate-200 font-medium">Gemini API Key (Optional Override)</label>
+            <input type="password" id="setting-api-key" placeholder="AIzaSy... (Leave empty to use server cloud key)" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
+            <p class="text-[10px] text-slate-400">Your key is kept safe and never shared with other users.</p>
+          </div>
+
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-1">
+            <div class="text-slate-200 font-medium">Master Owner Security</div>
+            <p class="text-[11px] text-slate-400">Owner account is password protected. Unauthorized users cannot access administrative settings.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: CONNECTED DEVICES & TELEMETRY -->
+      <div id="hub-section-devices" class="hidden space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+          <button onclick="showHubMainMenu()" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium cursor-pointer">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Back to Settings</span>
+          </button>
+          <span class="font-bold text-white">Hardware & Telemetry</span>
+        </div>
+
+        <div class="space-y-2">
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <div class="font-medium text-white flex items-center gap-2">
+                <i data-lucide="monitor" class="w-4 h-4 text-cyan-400"></i>
+                <span id="telemetry-os-name">Windows 11 PC</span>
+              </div>
+              <span class="text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-800 px-1.5 py-0.5 rounded font-mono">Current Device</span>
+            </div>
+            <div class="text-[11px] text-slate-400">
+              Host: <code id="telemetry-host-name" class="text-slate-300">localhost:3000</code>
+            </div>
+            <div class="text-[10px] text-slate-500 flex items-center gap-2">
+              <span id="telemetry-screen-res">Screen: 1920x1080</span>
+              <span>·</span>
+              <span id="telemetry-cores">16 Cores</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SECTION: ACCOUNT & STORAGE VAULT -->
+      <div id="hub-section-account" class="hidden space-y-4 text-xs">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+          <button onclick="showHubMainMenu()" class="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium cursor-pointer">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            <span>Back to Settings</span>
+          </button>
+          <span class="font-bold text-white">Account & Vault</span>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-3 bg-[#050914] border border-slate-800 rounded-xl space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-300">Name</span>
+              <span id="hub-acc-name" class="text-white font-semibold">Daksh Bugalia</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-300">Email</span>
+              <span id="hub-acc-email" class="text-slate-400 font-mono">dakshbugalia1@gmail.com</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-300">Conversations</span>
+              <span id="hub-acc-conv-count" class="text-cyan-400 font-mono">1</span>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button onclick="exportConversationsJSON()" class="flex-1 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 rounded-lg text-center transition-colors cursor-pointer">
+              Export Chats (JSON)
+            </button>
+            <button onclick="exportConversationsMarkdown()" class="flex-1 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 rounded-lg text-center transition-colors cursor-pointer">
+              Export (Markdown)
+            </button>
+          </div>
+
+          <button onclick="handleLogout()" class="w-full py-2.5 bg-rose-950/60 hover:bg-rose-900/80 border border-rose-800 text-rose-300 font-medium rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <span>Log Out of Workstation</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Save / Close Bar -->
+      <div class="flex items-center justify-between pt-2 border-t border-slate-800/80">
+        <button onclick="closeSettingsHub()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-medium rounded-xl transition-colors cursor-pointer">
+          Close
+        </button>
+        <button onclick="saveAllSettings()" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-xl shadow-lg shadow-cyan-600/30 transition-all flex items-center gap-1.5 cursor-pointer">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          <span>Save & Apply</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Command Palette Modal (Ctrl+K) -->
+  <div id="modal-quick-actions" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-start justify-center p-4 pt-20 hidden">
+    <div class="bg-[#0b1322] border border-cyan-500/40 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden space-y-0">
+      <div class="p-3 border-b border-slate-800 flex items-center gap-2">
+        <i data-lucide="search" class="w-4 h-4 text-cyan-400"></i>
+        <input
+          type="text"
+          id="cmd-palette-input"
+          oninput="filterQuickActions()"
+          placeholder="Search PC actions, scripts, tools... (Esc to close)"
+          class="flex-1 bg-transparent text-sm text-white focus:outline-none placeholder-slate-500"
+        />
+        <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-400 font-mono">Esc</kbd>
+      </div>
+      <div id="cmd-palette-list" class="max-h-80 overflow-y-auto p-2 space-y-1 text-xs"></div>
+    </div>
+  </div>
+
+  <!-- ================= 4. SCRIPT LOGIC ================= -->
+  <script>
+    const OWNER_EMAILS = ['dakshbugalia1@gmail.com', 'dakshbugalia1@gamil.com'];
+
+    // State
+    let authState = {
+      mode: 'signin',
+      showPassword: false,
+    };
+
+    let currentUser = null;
+    let currentAbortController = null;
+    let speechRecognition = null;
+    let isListening = false;
+
+    let appState = {
+      apiKey: localStorage.getItem('GEMINI_API_KEY') || '',
+      aiModel: localStorage.getItem('AI_MODEL') || 'gemini-2.5-flash',
+      persona: localStorage.getItem('AI_PERSONA') || 'daksh-core',
+      temperature: parseFloat(localStorage.getItem('AI_TEMP') || '0.7'),
+      autoSpeak: localStorage.getItem('AUTO_SPEAK') === 'true',
+      voiceModel: localStorage.getItem('VOICE_MODEL') || 'Kore',
+      voiceRate: parseFloat(localStorage.getItem('VOICE_RATE') || '1.0'),
+      conversations: [],
+      activeConversationId: '',
+      knowledgeDocs: [],
+      currentAttachment: null,
+      isGenerating: false,
+    };
+
+    const QUICK_ACTIONS_DATA = [
+      { id: 'ps-temp', title: 'Clean Windows Temp Files', cat: 'system', prompt: 'Write a safe PowerShell script to calculate and clean up %TEMP% and Windows temp files with administrator elevation check.' },
+      { id: 'ps-files', title: 'Find Top 15 Largest Files', cat: 'system', prompt: 'Write a PowerShell one-liner or script to scan the current drive or directory and output the top 15 largest files formatted in MB/GB.' },
+      { id: 'bash-rename', title: 'Batch Rename Files', cat: 'script', prompt: 'Write a cross-platform script (Bash and Python) to safely batch-rename all files in a folder matching a pattern, adding an incremental counter and creation date.' },
+      { id: 'git-undo', title: 'Undo Last Git Commit', cat: 'git', prompt: 'Explain the difference between git reset --soft HEAD~1 and git reset --hard HEAD~1, and show how to safely amend or undo the last local commit.' },
+      { id: 'kill-port', title: 'Kill Process Holding Port 3000', cat: 'system', prompt: 'Show how to find the process ID (PID) holding port 3000 on both Windows (netstat / Stop-Process) and Linux/macOS (lsof / kill), then terminate it.' },
+      { id: 'notes', title: 'Condense Meeting Notes', cat: 'writing', prompt: 'Format and condense these notes into: 1. Executive Summary, 2. Key Decisions Made, 3. Immediate Action Items (Who & What), 4. Open Questions.' },
+      { id: 'regex', title: 'Regex for Data Extraction', cat: 'dev', prompt: 'Provide regular expressions with full explanations for: 1. RFC-compliant Email, 2. IPv4 address, 3. ISO 8601 Datetime, 4. Semantic Versioning string.' },
+    ];
+
+    // Initialize on DOM load
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+
+      const savedSession = localStorage.getItem('daksh_auth_session');
+      if (savedSession) {
+        try {
+          const user = JSON.parse(savedSession);
+          if (user && user.email) {
+            loginUser(user, true);
+            return;
+          }
+        } catch (e) {}
+      }
+
+      showLoginScreen();
+    });
+
+    function showLoginScreen() {
+      document.getElementById('view-login').classList.remove('hidden');
+      document.getElementById('app-main-layout').classList.add('hidden');
+      lucide.createIcons();
+    }
+
+    function isOwnerUser(email) {
+      if (!email) return false;
+      return OWNER_EMAILS.includes(email.toLowerCase().trim());
+    }
+
+    function setAuthMode(mode) {
+      authState.mode = mode;
+      const isSignup = mode === 'signup';
+      document.getElementById('signup-name-container').classList.toggle('hidden', !isSignup);
+      document.getElementById('btn-auth-text').innerText = isSignup ? 'Create Workstation Account' : 'Sign In to Workstation';
+
+      if (isSignup) {
+        document.getElementById('btn-login-tab-signup').className = 'flex-1 py-1.5 rounded-lg font-medium transition-all text-center bg-gradient-to-r from-indigo-600/40 to-cyan-600/40 border border-cyan-500/40 text-white shadow-sm';
+        document.getElementById('btn-login-tab-signin').className = 'flex-1 py-1.5 rounded-lg font-medium transition-colors text-center text-slate-400 hover:text-white';
+      } else {
+        document.getElementById('btn-login-tab-signin').className = 'flex-1 py-1.5 rounded-lg font-medium transition-all text-center bg-gradient-to-r from-indigo-600/40 to-cyan-600/40 border border-cyan-500/40 text-white shadow-sm';
+        document.getElementById('btn-login-tab-signup').className = 'flex-1 py-1.5 rounded-lg font-medium transition-colors text-center text-slate-400 hover:text-white';
+      }
+    }
+
+    function togglePasswordVisibility() {
+      authState.showPassword = !authState.showPassword;
+      const input = document.getElementById('input-auth-password');
+      input.type = authState.showPassword ? 'text' : 'password';
+      const eyeIcon = document.getElementById('eye-icon');
+      eyeIcon.setAttribute('data-lucide', authState.showPassword ? 'eye-off' : 'eye');
+      lucide.createIcons();
+    }
+
+    // Google Login Modal
+    function openGoogleChooser() {
+      const modal = document.getElementById('modal-google-chooser');
+      const emailInput = document.getElementById('custom-google-email-input');
+      const pwdInput = document.getElementById('owner-security-password-input');
+      const verifyBox = document.getElementById('owner-verify-container');
+      const errBanner = document.getElementById('google-auth-error-banner');
+
+      emailInput.value = '';
+      if (pwdInput) pwdInput.value = '';
+      verifyBox.classList.add('hidden');
+      errBanner.classList.add('hidden');
+
+      emailInput.oninput = function() {
+        const val = emailInput.value.toLowerCase().trim();
+        if (isOwnerUser(val)) {
+          verifyBox.classList.remove('hidden');
+        } else {
+          verifyBox.classList.add('hidden');
+        }
+      };
+
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeGoogleChooser() {
+      document.getElementById('modal-google-chooser').classList.add('hidden');
+    }
+
+    async function submitGoogleAuth() {
+      const emailInput = document.getElementById('custom-google-email-input');
+      const email = emailInput.value.trim();
+      const pwdInput = document.getElementById('owner-security-password-input');
+      const password = pwdInput ? pwdInput.value : '';
+      const errBanner = document.getElementById('google-auth-error-banner');
+      const errText = document.getElementById('google-auth-error-text');
+
+      if (!email || !email.includes('@')) {
+        errText.innerText = 'Please enter a valid Google email address.';
+        errBanner.classList.remove('hidden');
+        return;
+      }
+
+      const isOwner = isOwnerUser(email);
+      if (isOwner && !password) {
+        errText.innerText = 'Owner verification required: Please enter your Owner Security Password.';
+        errBanner.classList.remove('hidden');
+        document.getElementById('owner-verify-container').classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            authProvider: 'google',
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.detail || 'Authentication failed');
+        }
+
+        closeGoogleChooser();
+        loginUser(data.user, true);
+      } catch (err) {
+        errText.innerText = err.message;
+        errBanner.classList.remove('hidden');
+      }
+    }
+
+    // Guest Login
+    function handleGuestLogin() {
+      const guestUser = {
+        id: `guest-${Date.now()}`,
+        name: 'Guest Workstation',
+        email: 'guest@workstation.local',
+        role: 'Guest User',
+        isOwner: false,
+        isGuest: true,
+        authProvider: 'guest',
+      };
+      loginUser(guestUser, false);
+    }
+
+    // Password Sign In / Sign Up
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('input-auth-email').value.trim();
+      const password = document.getElementById('input-auth-password').value;
+      const remember = document.getElementById('remember-me-checkbox').checked;
+
+      if (!email || !email.includes('@')) {
+        showLoginError('Please enter a valid email address.');
+        return;
+      }
+      if (password.length < 4) {
+        showLoginError('Password must be at least 4 characters.');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            authProvider: 'password',
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.detail || 'Sign in failed');
+        }
+
+        loginUser(data.user, remember);
+      } catch (err) {
+        showLoginError(err.message);
+      }
+    }
+
+    function showLoginError(msg) {
+      const banner = document.getElementById('login-error-banner');
+      document.getElementById('login-error-text').innerText = msg;
+      banner.classList.remove('hidden');
+    }
+
+    // Login Routine
+    function loginUser(user, remember) {
+      currentUser = user;
+      if (remember && !user.isGuest) {
+        localStorage.setItem('daksh_auth_session', JSON.stringify(user));
+      } else {
+        localStorage.removeItem('daksh_auth_session');
+      }
+
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('app-main-layout').classList.remove('hidden');
+
+      const initial = (user.name || user.email)[0].toUpperCase();
+      const displayName = user.name || user.email.split('@')[0];
+      const headAvatar = document.getElementById('header-avatar');
+      if (headAvatar) headAvatar.innerText = initial;
+      const headUser = document.getElementById('header-username');
+      if (headUser) headUser.innerText = displayName;
+
+      const sideAvatar = document.getElementById('sidebar-avatar');
+      if (sideAvatar) sideAvatar.innerText = initial;
+      const sideUser = document.getElementById('sidebar-username');
+      if (sideUser) sideUser.innerText = displayName;
+
+      loadUserData(user.email, user.isGuest);
+      switchTab('chat');
+      updateAudioToggleIcon();
+      detectSystemTelemetry();
+      lucide.createIcons();
+    }
+
+    function loadUserData(email, isGuest) {
+      if (isGuest) {
+        appState.conversations = [{ id: 'guest-session-1', title: 'Workstation Session', messages: [] }];
+        appState.activeConversationId = 'guest-session-1';
+        appState.knowledgeDocs = [
+          { id: 'g-doc-1', title: 'PC Optimization Manual', source: 'manual', wordCount: 380, content: 'PC Performance Optimization Manual for guest testing.' }
+        ];
+      } else {
+        const safeEmailKey = email.toLowerCase().replace(/[^a-z0-9]/g, '_');
+        const savedConvs = localStorage.getItem(`daksh_convs_${safeEmailKey}`);
+        const savedKB = localStorage.getItem(`daksh_kb_${safeEmailKey}`);
+
+        if (savedConvs) {
+          appState.conversations = JSON.parse(savedConvs);
+        } else {
+          appState.conversations = [{ id: `session-${Date.now()}`, title: 'Workstation Session', messages: [] }];
+        }
+        appState.activeConversationId = appState.conversations[0]?.id || `session-${Date.now()}`;
+
+        if (savedKB) {
+          appState.knowledgeDocs = JSON.parse(savedKB);
+        } else {
+          appState.knowledgeDocs = [
+            { id: 'doc-1', title: 'PC Performance Optimization & Tuning Manual', source: 'manual', wordCount: 380, content: '# PC Performance Optimization Manual\n- Windows Standby RAM Purging\n- SSD TRIM Automation\n- Power Profile configuration' },
+            { id: 'doc-2', title: 'Daksh Intelligence Architecture Guide', source: 'manual', wordCount: 320, content: '# Daksh Intelligence Architecture\nCreated and owned by Daksh Bugalia.\nFeatures: Short-term memory, voice modes, knowledge base grounding.' },
+            { id: 'doc-3', title: 'DevOps & Git Terminal Playbook', source: 'manual', wordCount: 340, content: '# DevOps & Git Terminal Playbook\n- Port Diagnostics: Get-NetTCPConnection\n- Git Clean: git reset --soft HEAD~1\n- Docker hygiene' },
+          ];
+        }
+      }
+
+      renderConversationsList();
+      renderKnowledgeBase();
+      updateBadges();
+      renderMessages();
+    }
+
+    function saveUserData() {
+      if (!currentUser || currentUser.isGuest) return;
+      const safeEmailKey = currentUser.email.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      localStorage.setItem(`daksh_convs_${safeEmailKey}`, JSON.stringify(appState.conversations));
+      localStorage.setItem(`daksh_kb_${safeEmailKey}`, JSON.stringify(appState.knowledgeDocs));
+    }
+
+    function handleLogout() {
+      if (currentUser && currentUser.isGuest) {
+        appState.conversations = [];
+        appState.knowledgeDocs = [];
+      }
+      currentUser = null;
+      localStorage.removeItem('daksh_auth_session');
+      closeSettingsHub();
+      showLoginScreen();
+    }
+
+    // ================= SETTINGS & PROFILE HUB =================
+    function openSettingsHub(initialTab = 'settings') {
+      if (!currentUser) return;
+
+      const isOwner = isOwnerUser(currentUser.email);
+      document.getElementById('hub-username-label').innerText = currentUser.email;
+      const roleBadge = document.getElementById('hub-role-badge');
+      if (isOwner) {
+        roleBadge.innerText = '👑 Owner';
+        roleBadge.className = 'text-[9px] px-2 py-0.5 rounded-full font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-semibold';
+      } else if (currentUser.isGuest) {
+        roleBadge.innerText = 'Guest';
+        roleBadge.className = 'text-[9px] px-2 py-0.5 rounded-full font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold';
+      } else {
+        roleBadge.innerText = 'Verified Member';
+        roleBadge.className = 'text-[9px] px-2 py-0.5 rounded-full font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold';
+      }
+
+      document.getElementById('hub-acc-name').innerText = currentUser.name || (isOwner ? 'Daksh Bugalia' : 'Member');
+      document.getElementById('hub-acc-email').innerText = currentUser.email;
+      document.getElementById('hub-acc-conv-count').innerText = appState.conversations.length;
+
+      document.getElementById('setting-auto-speak').checked = appState.autoSpeak;
+      document.getElementById('setting-voice-model').value = appState.voiceModel;
+      document.getElementById('setting-voice-rate').value = appState.voiceRate;
+      document.getElementById('voice-speed-val').innerText = appState.voiceRate + 'x';
+
+      document.getElementById('setting-ai-model').value = appState.aiModel;
+      document.getElementById('setting-persona').value = appState.persona;
+      document.getElementById('setting-temperature').value = appState.temperature;
+      document.getElementById('temp-val').innerText = appState.temperature;
+      document.getElementById('setting-api-key').value = appState.apiKey;
+
+      if (initialTab === 'profile') {
+        openHubSection('account');
+      } else {
+        showHubMainMenu();
+      }
+
+      document.getElementById('modal-settings-hub').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeSettingsHub() {
+      document.getElementById('modal-settings-hub').classList.add('hidden');
+    }
+
+    function showHubMainMenu() {
+      document.getElementById('hub-main-menu').classList.remove('hidden');
+      const sections = ['voice', 'model', 'notifications', 'language', 'privacy', 'devices', 'account'];
+      sections.forEach(s => {
+        const el = document.getElementById(`hub-section-${s}`);
+        if (el) el.classList.add('hidden');
+      });
+      lucide.createIcons();
+    }
+
+    function openHubSection(sectionName) {
+      document.getElementById('hub-main-menu').classList.add('hidden');
+      const sections = ['voice', 'model', 'notifications', 'language', 'privacy', 'devices', 'account'];
+      sections.forEach(s => {
+        const el = document.getElementById(`hub-section-${s}`);
+        if (el) el.classList.toggle('hidden', s !== sectionName);
+      });
+      lucide.createIcons();
+    }
+
+    function saveAllSettings() {
+      appState.autoSpeak = document.getElementById('setting-auto-speak').checked;
+      appState.voiceModel = document.getElementById('setting-voice-model').value;
+      appState.voiceRate = parseFloat(document.getElementById('setting-voice-rate').value);
+      appState.aiModel = document.getElementById('setting-ai-model').value;
+      appState.persona = document.getElementById('setting-persona').value;
+      appState.temperature = parseFloat(document.getElementById('setting-temperature').value);
+      appState.apiKey = document.getElementById('setting-api-key').value.trim();
+
+      localStorage.setItem('AUTO_SPEAK', appState.autoSpeak);
+      localStorage.setItem('VOICE_MODEL', appState.voiceModel);
+      localStorage.setItem('VOICE_RATE', appState.voiceRate);
+      localStorage.setItem('AI_MODEL', appState.aiModel);
+      localStorage.setItem('AI_PERSONA', appState.persona);
+      localStorage.setItem('AI_TEMP', appState.temperature);
+      localStorage.setItem('GEMINI_API_KEY', appState.apiKey);
+
+      updateAudioToggleIcon();
+      closeSettingsHub();
+      alert('Settings saved and applied successfully!');
+    }
+
+    // Telemetry & Hardware Detection
+    function detectSystemTelemetry() {
+      let os = 'Windows 11 Workstation';
+      const ua = navigator.userAgent;
+      if (ua.includes('Win')) os = 'Windows 11 / 10 PC';
+      else if (ua.includes('Mac')) os = 'macOS Workstation';
+      else if (ua.includes('Linux')) os = 'Linux Enterprise PC';
+      else if (ua.includes('Android')) os = 'Android Mobile';
+      else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS Device';
+
+      document.getElementById('telemetry-os-name').innerText = os;
+      document.getElementById('telemetry-host-name').innerText = window.location.host || 'localhost:3000';
+      document.getElementById('telemetry-screen-res').innerText = `Screen: ${window.screen.width}x${window.screen.height}`;
+      document.getElementById('telemetry-cores').innerText = `${navigator.hardwareConcurrency || 8} vCPUs`;
+    }
+
+    // Audio & Auto-Speech
+    function toggleAudioSpeech() {
+      appState.autoSpeak = !appState.autoSpeak;
+      localStorage.setItem('AUTO_SPEAK', appState.autoSpeak);
+      updateAudioToggleIcon();
+      if (appState.autoSpeak) {
+        speakText('Voice output enabled.');
+      } else {
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      }
+    }
+
+    function updateAudioToggleIcon() {
+      const btn = document.getElementById('audio-toggle-btn');
+      if (appState.autoSpeak) {
+        btn.className = 'p-2 rounded-lg text-cyan-400 bg-cyan-950/60 border border-cyan-500/40 transition-colors shadow-sm shadow-cyan-500/20 cursor-pointer';
+        btn.title = 'Auto-Speech: ON';
+      } else {
+        btn.className = 'p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-slate-800 transition-colors cursor-pointer';
+        btn.title = 'Auto-Speech: OFF';
+      }
+    }
+
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const clean = text.replace(/[*#`_~\[\]]/g, '').trim();
+      const utterance = new SpeechSynthesisUtterance(clean);
+      utterance.rate = appState.voiceRate || 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Microphone Voice Dictation
+    function toggleMicrophone() {
+      const micBtn = document.getElementById('mic-btn');
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRec) {
+        alert('Voice dictation is not supported in this browser. Please use Google Chrome or Microsoft Edge.');
+        return;
+      }
+
+      if (isListening && speechRecognition) {
+        speechRecognition.stop();
+        isListening = false;
+        micBtn.className = 'p-2 text-slate-400 hover:text-cyan-300 rounded-lg transition-all cursor-pointer';
+        return;
+      }
+
+      speechRecognition = new SpeechRec();
+      speechRecognition.continuous = false;
+      speechRecognition.interimResults = true;
+      speechRecognition.lang = 'en-US';
+
+      speechRecognition.onstart = function() {
+        isListening = true;
+        micBtn.className = 'p-2 text-rose-500 bg-rose-950/60 border border-rose-500/50 rounded-lg transition-all animate-pulse cursor-pointer';
+      };
+
+      speechRecognition.onresult = function(event) {
+        const transcript = Array.from(event.results).map(r => r[0].transcript).join('');
+        document.getElementById('chat-input').value = transcript;
+      };
+
+      speechRecognition.onerror = function() {
+        isListening = false;
+        micBtn.className = 'p-2 text-slate-400 hover:text-cyan-300 rounded-lg transition-all cursor-pointer';
+      };
+
+      speechRecognition.onend = function() {
+        isListening = false;
+        micBtn.className = 'p-2 text-slate-400 hover:text-cyan-300 rounded-lg transition-all cursor-pointer';
+      };
+
+      speechRecognition.start();
+    }
+
+    // Tab Navigation: Only Chat and Knowledge Base
+    function switchTab(tabId) {
+      const tabs = ['chat', 'knowledge'];
+      tabs.forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (!view || !btn) return;
+        if (t === tabId) {
+          view.classList.remove('hidden');
+          btn.className = 'flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap bg-indigo-600/30 text-indigo-200 border border-indigo-500/40 shadow-sm cursor-pointer';
+        } else {
+          view.classList.add('hidden');
+          btn.className = 'flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 cursor-pointer';
+        }
+      });
+      lucide.createIcons();
+    }
+
+    function updateBadges() {
+      const kbBadge = document.getElementById('badge-knowledge-count');
+      if (kbBadge) kbBadge.innerText = appState.knowledgeDocs.length;
+    }
+
+    // Conversations
+    function renderConversationsList() {
+      const container = document.getElementById('conversation-list');
+      document.getElementById('conv-count-label').innerText = `Conversations (${appState.conversations.length})`;
+
+      container.innerHTML = appState.conversations.map(c => {
+        const isActive = c.id === appState.activeConversationId;
+        return `
+          <div onclick="selectConversation('${c.id}')" class="group flex items-center justify-between px-2.5 py-2 rounded-xl text-xs cursor-pointer transition-colors ${isActive ? 'bg-[#10192e] text-white font-medium border border-cyan-500/40 shadow-sm' : 'text-slate-400 hover:bg-[#0c1322] hover:text-slate-200'}">
+            <div class="flex items-center gap-2 truncate min-w-0">
+              <i data-lucide="message-square" class="w-3.5 h-3.5 ${isActive ? 'text-cyan-400' : 'text-slate-500'} shrink-0"></i>
+              <span class="truncate">${c.title || 'Workstation Session'}</span>
+            </div>
+            <button onclick="deleteConversation(event, '${c.id}')" class="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-rose-400 transition-opacity cursor-pointer">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function selectConversation(id) {
+      appState.activeConversationId = id;
+      const conv = appState.conversations.find(c => c.id === id);
+      const titleEl = document.getElementById('active-chat-title');
+      if (conv && titleEl) {
+        titleEl.innerText = conv.title || 'Workstation Session';
+      }
+      renderConversationsList();
+      renderMessages();
+    }
+
+    function createNewConversation() {
+      const newId = `session-${Date.now()}`;
+      appState.conversations.unshift({ id: newId, title: 'Workstation Session', messages: [] });
+      appState.activeConversationId = newId;
+      saveUserData();
+      renderConversationsList();
+      selectConversation(newId);
+    }
+
+    function deleteConversation(e, id) {
+      e.stopPropagation();
+      appState.conversations = appState.conversations.filter(c => c.id !== id);
+      if (appState.conversations.length === 0) {
+        createNewConversation();
+      } else {
+        appState.activeConversationId = appState.conversations[0].id;
+        saveUserData();
+        renderConversationsList();
+        selectConversation(appState.activeConversationId);
+      }
+    }
+
+    function clearCurrentChat() {
+      const activeConv = appState.conversations.find(c => c.id === appState.activeConversationId);
+      if (activeConv) {
+        activeConv.messages = [];
+        saveUserData();
+        renderMessages();
+      }
+    }
+
+    function clearAllConversations() {
+      if (confirm('Clear all conversation history?')) {
+        appState.conversations = [];
+        createNewConversation();
+      }
+    }
+
+    // Chat Execution
+    function handleInputKeydown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function sendQuickPrompt(prompt) {
+      document.getElementById('chat-input').value = prompt;
+      sendMessage();
+    }
+
+    function stopGeneration() {
+      if (currentAbortController) {
+        currentAbortController.abort();
+        currentAbortController = null;
+      }
+      appState.isGenerating = false;
+      document.getElementById('stop-gen-btn').classList.add('hidden');
+      document.getElementById('send-btn').classList.remove('hidden');
+    }
+
+    async function sendMessage() {
+      const inputEl = document.getElementById('chat-input');
+      const text = inputEl.value.trim();
+      if (!text && !appState.currentAttachment) return;
+      if (appState.isGenerating) return;
+
+      const activeConv = appState.conversations.find(c => c.id === appState.activeConversationId);
+      if (!activeConv) return;
+
+      if (activeConv.messages.length === 0) {
+        activeConv.title = text.slice(0, 32) + (text.length > 32 ? '...' : '');
+        renderConversationsList();
+      }
+
+      const userMsg = {
+        role: 'user',
+        content: text,
+        attachment: appState.currentAttachment,
+        timestamp: Date.now()
+      };
+      activeConv.messages.push(userMsg);
+      inputEl.value = '';
+      removeAttachment();
+
+      document.getElementById('chat-empty-hero').classList.add('hidden');
+      document.getElementById('messages-list').classList.remove('hidden');
+      renderMessages();
+
+      const assistantMsg = { role: 'assistant', content: '', timestamp: Date.now() };
+      activeConv.messages.push(assistantMsg);
+      appState.isGenerating = true;
+
+      document.getElementById('send-btn').classList.add('hidden');
+      document.getElementById('stop-gen-btn').classList.remove('hidden');
+
+      const knowledgeContext = appState.knowledgeDocs.map(d => `--- Document: ${d.title} ---\n${d.content}`).join('\n\n');
+
+      currentAbortController = new AbortController();
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: currentAbortController.signal,
+          body: JSON.stringify({
+            messages: activeConv.messages.slice(0, -1),
+            temperature: appState.temperature,
+            fileAttachment: userMsg.attachment,
+            knowledgeContext: knowledgeContext
+          })
+        });
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.detail || errData.error || `HTTP ${response.status}`);
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed.startsWith('data: ')) continue;
+            const dataStr = trimmed.slice(6).trim();
+            if (dataStr === '[DONE]') break;
+
+            try {
+              const parsed = JSON.parse(dataStr);
+              if (parsed.text) {
+                assistantMsg.content += parsed.text;
+                updateLastAssistantMessage(assistantMsg.content);
+              }
+            } catch (e) {
+              if (dataStr) {
+                assistantMsg.content += dataStr;
+                updateLastAssistantMessage(assistantMsg.content);
+              }
+            }
+          }
+        }
+
+        if (appState.autoSpeak && assistantMsg.content) {
+          speakText(assistantMsg.content);
+        }
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          assistantMsg.content += '\n\n*(Generation stopped by user)*';
+        } else {
+          assistantMsg.content = `⚠️ **Error communicating with Gemini:** ${err.message}`;
+        }
+        updateLastAssistantMessage(assistantMsg.content);
+      } finally {
+        appState.isGenerating = false;
+        currentAbortController = null;
+        document.getElementById('stop-gen-btn').classList.add('hidden');
+        document.getElementById('send-btn').classList.remove('hidden');
+        saveUserData();
+        renderMessages();
+      }
+    }
+
+    function renderMessages() {
+      const activeConv = appState.conversations.find(c => c.id === appState.activeConversationId);
+      const listEl = document.getElementById('messages-list');
+      if (!activeConv || activeConv.messages.length === 0) {
+        document.getElementById('chat-empty-hero').classList.remove('hidden');
+        listEl.classList.add('hidden');
+        return;
+      }
+
+      document.getElementById('chat-empty-hero').classList.add('hidden');
+      listEl.classList.remove('hidden');
+
+      listEl.innerHTML = activeConv.messages.map((m, idx) => {
+        const isUser = m.role === 'user';
+        let attHtml = '';
+        if (m.attachment) {
+          if (m.attachment.data) {
+            attHtml = `<img src="data:${m.attachment.mimeType};base64,${m.attachment.data}" class="max-w-xs rounded-lg mt-2 border border-slate-700">`;
+          } else if (m.attachment.text) {
+            attHtml = `<div class="mt-2 p-2 bg-slate-900 border border-slate-700 rounded text-xs font-mono text-cyan-300">📄 ${m.attachment.name}</div>`;
+          }
+        }
+
+        const formattedBody = isUser ? escapeHtml(m.content) : marked.parse(m.content || '');
+
+        return `
+          <div class="flex gap-3.5 ${isUser ? 'justify-end' : 'justify-start'} group">
+            ${!isUser ? '<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-cyan-400/50 shadow-md shadow-cyan-500/20"><img src="/logo.jpg" class="w-full h-full object-cover"></div>' : ''}
+            
+            <div class="max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3 text-xs leading-relaxed ${isUser ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-md shadow-indigo-600/20' : 'bg-[#0b1322] border border-cyan-950/60 text-slate-100 shadow-md'}">
+              <div class="prose prose-invert text-xs">${formattedBody}</div>
+              ${attHtml}
+              ${!isUser && m.content ? `
+                <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center gap-3 text-slate-500 text-[10px]">
+                  <button onclick="speakText('${escapeQuotes(m.content)}')" class="hover:text-cyan-400 flex items-center gap-1 transition-colors cursor-pointer">
+                    <i data-lucide="volume-2" class="w-3 h-3"></i>
+                    <span>Speak</span>
+                  </button>
+                  <button onclick="navigator.clipboard.writeText('${escapeQuotes(m.content)}'); alert('Copied to clipboard!');" class="hover:text-slate-300 flex items-center gap-1 transition-colors cursor-pointer">
+                    <i data-lucide="copy" class="w-3 h-3"></i>
+                    <span>Copy</span>
+                  </button>
+                </div>
+              ` : ''}
+            </div>
+
+            ${isUser ? `<div class="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-800 text-white font-bold text-xs flex items-center justify-center shrink-0 border border-indigo-400/40 shadow-md shadow-indigo-600/30">${(currentUser?.name || 'U')[0].toUpperCase()}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      document.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+      lucide.createIcons();
+      scrollChatToBottom();
+    }
+
+    function updateLastAssistantMessage(content) {
+      const listEl = document.getElementById('messages-list');
+      const lastBubble = listEl.lastElementChild?.querySelector('.prose');
+      if (lastBubble) {
+        lastBubble.innerHTML = marked.parse(content);
+        lastBubble.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
+      }
+      scrollChatToBottom();
+    }
+
+    function scrollChatToBottom() {
+      const container = document.getElementById('chat-messages-container');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+    }
+
+    function escapeQuotes(str) {
+      return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, ' ');
+    }
+
+    // Attachments
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      if (file.type.startsWith('image/')) {
+        reader.onload = function(evt) {
+          appState.currentAttachment = {
+            name: file.name,
+            mimeType: file.type,
+            data: evt.target.result.split(',')[1],
+          };
+          document.getElementById('attachment-preview').classList.remove('hidden');
+          document.getElementById('attachment-name').innerText = `📎 ${file.name}`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        reader.onload = function(evt) {
+          appState.currentAttachment = {
+            name: file.name,
+            mimeType: file.type || 'text/plain',
+            text: evt.target.result,
+          };
+          document.getElementById('attachment-preview').classList.remove('hidden');
+          document.getElementById('attachment-name').innerText = `📄 ${file.name}`;
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    function removeAttachment() {
+      appState.currentAttachment = null;
+      document.getElementById('attachment-preview').classList.add('hidden');
+      document.getElementById('file-upload-input').value = '';
+    }
+
+    // Knowledge Base
+    async function ingestUrl() {
+      const urlInput = document.getElementById('url-ingest-input');
+      const url = urlInput.value.trim();
+      if (!url) return alert('Please enter a valid URL.');
+
+      const btn = document.getElementById('btn-ingest-url');
+      btn.innerText = 'Ingesting...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/knowledge/fetch-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'URL Fetch Failed');
+
+        appState.knowledgeDocs.unshift({
+          id: `doc-${Date.now()}`,
+          title: data.title || url,
+          source: url,
+          wordCount: data.wordCount || 0,
+          content: data.content
+        });
+        saveUserData();
+        renderKnowledgeBase();
+        updateBadges();
+        urlInput.value = '';
+        alert('URL successfully ingested into Knowledge Base!');
+      } catch (e) {
+        alert('Failed to ingest URL: ' + e.message);
+      } finally {
+        btn.innerText = 'Ingest';
+        btn.disabled = false;
+      }
+    }
+
+    function addManualDoc() {
+      const title = document.getElementById('doc-title-input').value.trim();
+      const content = document.getElementById('doc-content-input').value.trim();
+      if (!title || !content) return alert('Title and content are required');
+
+      appState.knowledgeDocs.unshift({
+        id: `manual-${Date.now()}`,
+        title: title,
+        source: 'manual',
+        wordCount: content.split(/\s+/).length,
+        content: content
+      });
+      saveUserData();
+      renderKnowledgeBase();
+      updateBadges();
+      document.getElementById('doc-title-input').value = '';
+      document.getElementById('doc-content-input').value = '';
+      alert('Document added to Knowledge Base!');
+    }
+
+    function deleteDoc(id) {
+      appState.knowledgeDocs = appState.knowledgeDocs.filter(d => d.id !== id);
+      saveUserData();
+      renderKnowledgeBase();
+      updateBadges();
+    }
+
+    function renderKnowledgeBase() {
+      const listEl = document.getElementById('kb-documents-list');
+      listEl.innerHTML = appState.knowledgeDocs.map(d => `
+        <div class="cyber-panel rounded-2xl p-4 flex items-center justify-between">
+          <div class="min-w-0 pr-4">
+            <h4 class="font-bold text-xs text-white truncate">${d.title}</h4>
+            <p class="text-[11px] text-slate-400 mt-0.5 truncate">${d.source} · ${d.wordCount} words</p>
+          </div>
+          <button onclick="deleteDoc('${d.id}')" class="p-2 text-slate-500 hover:text-rose-400 rounded-lg hover:bg-slate-900 transition-colors cursor-pointer">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // Command Palette (Ctrl+K)
+    function openQuickActionsModal() {
+      renderQuickActionsList(QUICK_ACTIONS_DATA);
+      document.getElementById('cmd-palette-input').value = '';
+      document.getElementById('modal-quick-actions').classList.remove('hidden');
+      document.getElementById('cmd-palette-input').focus();
+      lucide.createIcons();
+    }
+
+    function closeQuickActionsModal() {
+      document.getElementById('modal-quick-actions').classList.add('hidden');
+    }
+
+    function filterQuickActions() {
+      const q = document.getElementById('cmd-palette-input').value.toLowerCase().trim();
+      const filtered = QUICK_ACTIONS_DATA.filter(a => a.title.toLowerCase().includes(q) || a.prompt.toLowerCase().includes(q));
+      renderQuickActionsList(filtered);
+    }
+
+    function renderQuickActionsList(list) {
+      const container = document.getElementById('cmd-palette-list');
+      if (list.length === 0) {
+        container.innerHTML = `<div class="p-4 text-center text-slate-500">No matching PC actions found.</div>`;
+        return;
+      }
+      container.innerHTML = list.map(a => `
+        <div onclick="executeCommandPaletteAction('${a.id}')" class="p-2.5 hover:bg-slate-800 rounded-xl cursor-pointer flex items-center justify-between transition-colors group">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="terminal" class="w-4 h-4 text-cyan-400"></i>
+            <div>
+              <div class="font-semibold text-slate-200 group-hover:text-cyan-300">${a.title}</div>
+              <div class="text-[10px] text-slate-400 line-clamp-1">${a.prompt}</div>
+            </div>
+          </div>
+          <span class="text-[10px] bg-slate-900 border border-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">${a.cat}</span>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function executeCommandPaletteAction(id) {
+      const action = QUICK_ACTIONS_DATA.find(a => a.id === id);
+      if (action) {
+        closeQuickActionsModal();
+        switchTab('chat');
+        sendQuickPrompt(action.prompt);
+      }
+    }
+
+    // Export Data
+    function exportConversationsJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState.conversations, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `daksh_conversations_${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function exportConversationsMarkdown() {
+      let md = `# Daksh Intelligence - Conversation History\nOwner: Daksh Bugalia\nExport Date: ${new Date().toISOString()}\n\n`;
+      appState.conversations.forEach(c => {
+        md += `## ${c.title || 'Workstation Session'}\n\n`;
+        (c.messages || []).forEach(m => {
+          md += `### ${m.role === 'user' ? 'User' : 'Daksh Intelligence'}:\n${m.content}\n\n`;
+        });
+        md += `---\n\n`;
+      });
+      const dataStr = "data:text/markdown;charset=utf-8," + encodeURIComponent(md);
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `daksh_conversations_${Date.now()}.md`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openQuickActionsModal();
+      }
+      if (e.key === 'Escape') {
+        closeQuickActionsModal();
+        closeSettingsHub();
+        closeGoogleChooser();
+      }
+    });
+  </script>
+</body>
+</html>
